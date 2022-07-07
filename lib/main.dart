@@ -4,7 +4,6 @@ import 'package:remo/list_screen.dart';
 import 'package:remo/location_page.dart';
 import 'package:remo/login_page.dart';
 
-import 'card_mobil.dart';
 
 void main() => runApp(MyApp());
 
