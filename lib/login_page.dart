@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:remo/home_page.dart';
 
-class LoginPage extends StatefulWidget{
+class LoginPage extends StatelessWidget{
   static String tag = 'login-page';
-  @override
-  _LoginPageState createState() => new _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage>{
   @override
   Widget build(BuildContext context) {
     final logo = Hero(
@@ -50,14 +45,14 @@ class _LoginPageState extends State<LoginPage>{
         child: MaterialButton(
           minWidth: 200.0,
           height: 42.0,
-          onPressed: () { 
+          onPressed: () {
             Navigator.of(context).pushNamed(HomePage.tag);
           },
           color: Colors.lightBlue,
           child: Text('Log in',
-          style: TextStyle(
-            color: Colors.white
-          ),
+            style: TextStyle(
+                color: Colors.white
+            ),
           ),
         ),
       ),
@@ -65,9 +60,9 @@ class _LoginPageState extends State<LoginPage>{
     final forgotLabel = FlatButton(
         onPressed: () {},
         child: Text(
-      'Forgot Password?',
-      style: TextStyle(color: Colors.black),
-    ));
+          'Forgot Password?',
+          style: TextStyle(color: Colors.black),
+        ));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -93,7 +88,5 @@ class _LoginPageState extends State<LoginPage>{
         ),
       ),
     );
-
   }
-  
 }

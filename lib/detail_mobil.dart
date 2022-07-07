@@ -82,9 +82,33 @@ class DetailMobilePage extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  ClipRRect(
-                    child: Image.asset(mobil.imageAsset),
-                    borderRadius: BorderRadius.circular(10),
+                  Stack(
+                    children: <Widget>[
+                      Image.asset(mobil.imageAsset),
+                      SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.grey,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                              const FavoriteButton(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
                   Container(
@@ -236,23 +260,16 @@ class DetailMobilePage extends StatelessWidget {
   }
 }
 
-class DetailWebPage extends StatefulWidget {
+class DetailWebPage extends StatelessWidget {
   final DataMobil mobil;
-
-  const DetailWebPage({Key? key, required this.mobil}) : super(key: key);
-
-  @override
-  _DetailWebPageState createState() => _DetailWebPageState();
-}
-
-class _DetailWebPageState extends State<DetailWebPage> {
+  DetailWebPage({Key? key, required this.mobil}) : super(key: key);
   final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    double hrg12 = widget.mobil.price * 12;
-    double hrg6 = widget.mobil.price * 6;
+    double hrg12 = mobil.price * 12;
+    double hrg6 = mobil.price * 6;
 
     return Scaffold(
       appBar: kIsWeb ? null : AppBar(),
@@ -281,10 +298,18 @@ class _DetailWebPageState extends State<DetailWebPage> {
                     Expanded(
                       child: Column(
                         children: [
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.end,
+                            children: [
+                              const FavoriteButton(),
+                            ],
+                          ),
                           ClipRRect(
-                            child: Image.asset(widget.mobil.imageAsset),
+                            child: Image.asset(mobil.imageAsset),
                             borderRadius: BorderRadius.circular(10),
                           ),
+
                           const SizedBox(height: 16),
                           Scrollbar(
                             isAlwaysShown: true,
@@ -295,7 +320,7 @@ class _DetailWebPageState extends State<DetailWebPage> {
                               child: ListView(
                                 controller: _scrollController,
                                 scrollDirection: Axis.horizontal,
-                                children: widget.mobil.imageUrl.map((url) {
+                                children: mobil.imageUrl.map((url) {
                                   return Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: ClipRRect(
@@ -320,7 +345,7 @@ class _DetailWebPageState extends State<DetailWebPage> {
                             children: <Widget>[
                               Container(
                                 child: Text(
-                                  widget.mobil.name,
+                                  mobil.name,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 30.0,
@@ -357,7 +382,7 @@ class _DetailWebPageState extends State<DetailWebPage> {
 
                                         Text(hrg12.toString() +" IDR"),
                                         Text(hrg6.toString() +" IDR"),
-                                        Text(widget.mobil.price.toString() +" IDR"),
+                                        Text(mobil.price.toString() +" IDR"),
                                       ],
                                     ),
 
@@ -366,90 +391,92 @@ class _DetailWebPageState extends State<DetailWebPage> {
 
                               ),
                               Container(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Text(
-                                        'Specification',
-                                        textAlign: TextAlign.justify,
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
-                                          fontFamily: 'Staatliches',
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(vertical: 16.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              const Icon(Icons.car_rental_rounded),
-                                              const SizedBox(height: 8.0),
-                                              Text(
-                                                'Brand',
-                                                style: informationTextStyle,
-                                              ),
-                                              Text(widget.mobil.brand),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: <Widget>[
-                                              const Icon(Icons.color_lens_rounded),
-                                              const SizedBox(height: 8.0),
-                                              Text(
-                                                'Color',
-                                                style: informationTextStyle,
-                                              ),
-                                              Text(widget.mobil.color),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: <Widget>[
-                                              const Icon(Icons.car_repair_rounded),
-                                              const SizedBox(height: 8.0),
-                                              Text(
-                                                'Gearbox',
-                                                style: informationTextStyle,
-                                              ),
-                                              Text(widget.mobil.gearbox.toString()),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: <Widget>[
-                                              const Icon(Icons.local_gas_station_rounded),
-                                              const SizedBox(height: 8.0),
-                                              Text(
-                                                'Fuel',
-                                                style: informationTextStyle,
-                                              ),
-                                              Text(widget.mobil.fuel.toString()),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(vertical: 16.0),
-                                      child: RaisedButton(
-                                        shape:
-                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                        onPressed: (){
-                                          _showSimpleDialog(context);
-                                        },
-                                        padding: EdgeInsets.all(10.0),
-                                        color: Colors.blueAccent,
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Container(
                                         child: Text(
-                                          'Rental',
-                                          style: TextStyle(fontSize: 20, color: Colors.white),
+                                          'Specification',
+                                          textAlign: TextAlign.justify,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontFamily: 'Staatliches',
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
+
+
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(vertical: 16.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            Column(
+                                              children: <Widget>[
+                                                const Icon(Icons.car_rental_rounded),
+                                                const SizedBox(height: 8.0),
+                                                Text(
+                                                  'Brand',
+                                                  style: informationTextStyle,
+                                                ),
+                                                Text(mobil.brand),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                const Icon(Icons.color_lens_rounded),
+                                                const SizedBox(height: 8.0),
+                                                Text(
+                                                  'Color',
+                                                  style: informationTextStyle,
+                                                ),
+                                                Text(mobil.color),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                const Icon(Icons.car_repair_rounded),
+                                                const SizedBox(height: 8.0),
+                                                Text(
+                                                  'Gearbox',
+                                                  style: informationTextStyle,
+                                                ),
+                                                Text(mobil.gearbox.toString()),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                const Icon(Icons.local_gas_station_rounded),
+                                                const SizedBox(height: 8.0),
+                                                Text(
+                                                  'Fuel',
+                                                  style: informationTextStyle,
+                                                ),
+                                                Text(mobil.fuel.toString()),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(vertical: 16.0),
+                                        child: RaisedButton(
+                                          shape:
+                                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                          onPressed: (){
+                                            _showSimpleDialog(context);
+                                          },
+                                          padding: EdgeInsets.all(10.0),
+                                          color: Colors.blueAccent,
+                                          child: Text(
+                                            'Rental',
+                                            style: TextStyle(fontSize: 20, color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                               ),
                             ],
                           ),
@@ -466,9 +493,31 @@ class _DetailWebPageState extends State<DetailWebPage> {
     );
   }
 
+}
+
+
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key}) : super(key: key);
+
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  _FavoriteButtonState createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: Colors.red,
+      ),
+      onPressed: () {
+        setState(() {
+          isFavorite = !isFavorite;
+        });
+      },
+    );
   }
 }
